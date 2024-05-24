@@ -14,7 +14,7 @@ class PS_CLient:
         # Returns String
         with open("token.json", 'r') as json_file:
             jsonObject = json.load(json_file)
-            token = jsonObject['token']
+            token = jsonObject['data']['token']
         return token
     
     def __makeJsonFile(this, response):
@@ -50,11 +50,7 @@ class PS_CLient:
                         json=dataObject
                         )
         response = r.content.decode('utf-8')
-        jsonResponse = json.loads(response)
-        token = {
-            "token": jsonResponse['data']['token']
-        }
-        this.__makeJsonFile(token)
+        this.__makeJsonFile(response)
         return None
     
     def getFarmList(this):

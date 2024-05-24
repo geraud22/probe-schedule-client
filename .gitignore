@@ -2,3 +2,4 @@
 *.text
 *.json
 __pycache__
+.vscode
