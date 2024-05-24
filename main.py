@@ -11,7 +11,8 @@ def main():
                             'farmlist',
                             'login',
                             'blocklist',
-                            'devicelist'
+                            'devicelist',
+                            'devicestatus'
                         ])
     args = parser.parse_args()
     client = PS_CLient()
@@ -24,6 +25,8 @@ def main():
         client.getBlockList()
     if args.endpoint == 'devicelist':
         client.getDeviceList()
+    if args.endpoint == 'devicestatus':
+        client.getDeviceStatus()
 
 if __name__ == "__main__":
     main()
