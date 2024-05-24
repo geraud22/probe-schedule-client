@@ -1,6 +1,5 @@
 import argparse
-import sys
-from ps_client import PS_CLient
+from ps_client_class import PS_CLient
 import os
 
 def loggedIn():
