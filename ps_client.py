@@ -8,15 +8,16 @@ class PS_CLient:
     def __str__(this):
         pass
     
-    def __readToken(this, filename):
+    def __readToken(this):
         # Returns String
-        with open(f"{filename}.json", 'r') as json_file:
+        with open("token.json", 'r') as json_file:
             jsonObject = json.load(json_file)
             token = jsonObject['token']
         return token
     
-    def __makeJsonFile(this, jsonData, fileName):
+    def __makeJsonFile(this, response, fileName):
         # Returns None
+        jsonData = json.loads(response)
         with open(f"{fileName}.json", 'w') as json_file:
             json.dump(jsonData, json_file, indent=4)
         print(f"Received Data has been saved to {fileName}.json")
@@ -28,10 +29,10 @@ class PS_CLient:
         userDetails['password'] = input("Please enter your password: ")
         return userDetails
     
-    def returnAvailableEndpoints(this):
+    def __returnAvailableEndpoints(this):
         pass
     
-    def retrieveBearerToken(this):
+    def login(this):
         filename = "token"
         userDetails = this.__requestUserDetails()
         dataObject = {
@@ -54,12 +55,30 @@ class PS_CLient:
         this.__makeJsonFile(token, filename)
         return None
     
-    def getAvailableFarmList(this):
+    def getFarmList(this):
         filename = "farmlist"
         headers = {
-            "authorization": f"Bearer {this.__readToken(filename)}"
+            "authorization": f"Bearer {this.__readToken()}"
             }
         r = requests.get("https://api.probeschedule.co.za/data_api/v3/farms/list", headers=headers)
+        response = r.content.decode('utf-8')
+        this.__makeJsonFile(response, filename)
+        return None
+    
+    def getBlockList(this):
+        filename = "blocklist"
+        f_id = input("Enter Farm ID: ")
+        headers = {"authorization": f"Bearer {this.__readToken()}"}
+        r = requests.get(f"https://api.probeschedule.co.za/data_api/v3/farms/{f_id}/blocks", headers=headers)
+        response = r.content.decode('utf-8')
+        this.__makeJsonFile(response, filename)
+        return None
+    
+    def getDeviceList(this):
+        filename = "devicelist"
+        f_id = input("Enter Farm ID: ")
+        headers = {"authorization": f"Bearer {this.__readToken()}"}
+        r = requests.get(f"https://api.probeschedule.co.za/data_api/v3/farms/{f_id}/devices", headers=headers)
         response = r.content.decode('utf-8')
         this.__makeJsonFile(response, filename)
         return None

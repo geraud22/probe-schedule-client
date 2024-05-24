@@ -1,16 +1,29 @@
 import argparse
 import sys
-import ps_client
+from ps_client import PS_CLient
 
-print("Welcome to the Probe Schedule API Client.")
+def main():
+    parser = argparse.ArgumentParser(description="ProbeSchedule API Client")
+    parser.add_argument('endpoint', 
+                        type=str, 
+                        help="The API Endpoint to access",
+                        choices=[
+                            'farmlist',
+                            'login',
+                            'blocklist',
+                            'devicelist'
+                        ])
+    args = parser.parse_args()
+    client = PS_CLient()
+    
+    if args.endpoint == 'farmlist':
+        client.getFarmList()
+    if args.endpoint == 'login':
+        client.login()
+    if args.endpoint == 'blocklist':
+        client.getBlockList()
+    if args.endpoint == 'devicelist':
+        client.getDeviceList()
 
 if __name__ == "__main__":
-    quit = False
-    while not quit:
-        user_input = input("Your choice: ")
-            
-        if user_input.lower() != 'q':
-            pass    
-        
-        quit = True
-        print("Goodbye.")
+    main()
