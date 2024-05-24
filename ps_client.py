@@ -6,9 +6,6 @@ class PS_CLient:
         this.farm_id = 0
         this.device_id = 0
         this.filename = ''
-
-    def __str__(this):
-        pass
     
     def __readToken(this):
         # Returns String
@@ -30,9 +27,6 @@ class PS_CLient:
         userDetails['username'] = input("Please enter your username: ")
         userDetails['password'] = input("Please enter your password: ")
         return userDetails
-    
-    def __returnAvailableEndpoints(this):
-        pass
     
     def login(this):
         this.filename = "token"

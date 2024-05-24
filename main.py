@@ -26,10 +26,10 @@ def main():
     parser = argparse.ArgumentParser(description="ProbeSchedule API Client")
     parser.add_argument('endpoint', 
                         type=str, 
-                        help="The API Endpoint to access",
+                        help="Choose an API Endpoint to access",
                         choices=[
-                            'farmlist',
                             'login',
+                            'farmlist',
                             'blocklist',
                             'devicelist',
                             'devicestatus',
