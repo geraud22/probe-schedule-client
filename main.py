@@ -19,6 +19,8 @@ def routeArgs(args, client):
         client.getDeviceList()
     if args.endpoint == 'devicestatus':
         client.getDeviceStatus()
+    if args.endpoint == 'devicedata':
+        client.getDeviceData()
 
 def main():
     parser = argparse.ArgumentParser(description="ProbeSchedule API Client")
@@ -30,7 +32,8 @@ def main():
                             'login',
                             'blocklist',
                             'devicelist',
-                            'devicestatus'
+                            'devicestatus',
+                            'devicedata',
                         ])
     args = parser.parse_args()
     client = PS_CLient()

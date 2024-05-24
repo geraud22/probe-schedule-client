@@ -4,8 +4,8 @@ import json
 class PS_CLient:
     def __init__(this):
         this.farm_id = 0
+        this.device_id = 0
         this.filename = ''
-        this.device_id = ''
 
     def __str__(this):
         pass
@@ -86,6 +86,15 @@ class PS_CLient:
         this.device_id = input("Enter Device ID: ")
         headers = {"authorization": f"Bearer {this.__readToken()}"}
         r = requests.get(f"https://api.probeschedule.co.za/data_api/v3/devices/{this.device_id}/status", headers=headers)
+        response = r.content.decode('utf-8')
+        this.__makeJsonFile(response)
+        return None
+    
+    def getDeviceData(this):
+        this.filename = "devicedata"
+        this.device_id = input("Enter Device ID: ")
+        headers = {"authorization": f"Bearer {this.__readToken()}"}
+        r = requests.get(f"https://api.probeschedule.co.za/data_api/v3/devices/{this.device_id}/data", headers=headers)
         response = r.content.decode('utf-8')
         this.__makeJsonFile(response)
         return None
