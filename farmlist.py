@@ -1,10 +1,11 @@
 import requests
 import json
 from makeJsonFile import makeJsonFile
+from readToken import readToken
 
 def getAvailableFarmList():
     headers = {
-        "authorization": "Bearer someToken"
+        "authorization": f"Bearer {readToken()}"
         }
     r = requests.get("https://api.probeschedule.co.za/data_api/v3/farms/list", headers=headers)
     response = r.content.decode('utf-8')
