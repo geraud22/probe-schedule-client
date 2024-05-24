@@ -74,9 +74,9 @@ class PS_CLient:
         this.__makeRequest()
         return None
     
-    def getDeviceStatus(this):
+    def getDeviceStatus(this, deviceId):
         this.filename = "devicestatus"
-        this.device_id = input("Enter Device ID: ")
+        this.device_id = deviceId
         this.url = f"https://api.probeschedule.co.za/data_api/v3/devices/{this.device_id}/status"
         this.__makeRequest()
         return None

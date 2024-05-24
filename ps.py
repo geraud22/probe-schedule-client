@@ -17,7 +17,10 @@ def routeArgs(args, client):
     if args.endpoint == 'devicelist':
         client.getDeviceList()
     if args.endpoint == 'devicestatus':
-        client.getDeviceStatus()
+        if args.id:
+            client.getDeviceStatus(args.id)
+        else:
+            print("Error: Please provide a device ID for the devicestatus endpoint.")
     if args.endpoint == 'devicedata':
         client.getDeviceData()
 
@@ -34,6 +37,11 @@ def main():
                             'devicestatus',
                             'devicedata',
                         ])
+    
+    parser.add_argument('id',
+                    nargs='?',
+                    type=str,
+                    help="ID used for relevant endpoint")
     args = parser.parse_args()
     client = PS_CLient()
     
