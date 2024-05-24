@@ -1,4 +1,7 @@
 Use client.py to conveniently authenticate with, and query endpoints of the [Probe Schedule South Africa API](https://probeschedule.co.za/).
+
+The tool will fetch data and write it to a relevant JSON file in the current working directory.
+
 - Positional Arguments available:
     - login
     - farmlist
