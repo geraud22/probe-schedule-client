@@ -9,11 +9,11 @@ Use client.py to conveniently authenticate with, and query endpoints of the [Pro
 
 As with any Python project, it is recommended to run this tool in a Virtual Environment.
 Requires [Python](https://www.python.org/downloads/) to be installed locally.
-    - Create Virtual Environment (venv)
+- Create Virtual Environment (venv)
     ```
     python -m venv venv
     ```
-    - Activate Virtual Environment
+- Activate Virtual Environment
     ```
     venv/Scripts/activate
     ```
