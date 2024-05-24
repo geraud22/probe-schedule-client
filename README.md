@@ -1,4 +1,7 @@
 Use client.py to conveniently authenticate with, and query endpoints of the [Probe Schedule South Africa API](https://probeschedule.co.za/).
+
+The tool will fetch data and write it to a relevant JSON file in the current working directory.
+
 - Positional Arguments available:
     - login
     - farmlist
@@ -7,7 +10,7 @@ Use client.py to conveniently authenticate with, and query endpoints of the [Pro
     - devicestatus
     - devicedata
 
-As with any Python project, it is recommended to run this tool in a Virtual Environment.
+It is recommended to run this tool in a Virtual Environment.
 Requires [Python](https://www.python.org/downloads/) to be installed locally.
 - Create Virtual Environment (venv)
     ```
