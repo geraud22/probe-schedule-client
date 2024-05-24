@@ -49,8 +49,8 @@ class PS_CLient:
                         headers=headers, 
                         json=dataObject
                         )
-        response = r.content.decode('utf-8')
-        this.__makeJsonFile(response)
+        this.response = r.content.decode('utf-8')
+        this.__makeJsonFile()
         return None
     
     def getFarmList(this):

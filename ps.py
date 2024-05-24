@@ -23,23 +23,29 @@ def routeArgs(args, client):
         "devicestatus",
         "devicedata"
     ]
-    
-    if args.endpoint != 'farmlist':
-        for pos_arg in positional_arguments:
-            if args.endpoint == pos_arg:
-                if args.id:
-                    function_collection[pos_arg](args.id)
-                    return None
-                else:
-                    print(f"Error: Please provide a device ID for {pos_arg}.")
-                    return None
-    
-    if args.id:
-        print(f"Error: farmlist does not accept any additional arguments.")
-        return None
+
+    if not loggedIn():
+        print("No Token Available, please login...")
+        client.login()
         
-    client.getFarmList()
-    return None
+    for pos_arg in positional_arguments:
+        if pos_arg == args.endpoint:
+            if args.id:
+                function_collection[pos_arg](args.id)
+                return None
+            print(f"Error: Please provide a device ID for {pos_arg}.")
+            return None
+        if args.endpoint == 'farmlist':
+            if args.id:
+                print(f"Error: farmlist does not accept any additional arguments.")
+                return None
+            client.getFarmList()
+        if args.endpoint == 'login':
+            if args.id:
+                print(f"Error: login does not accept any additional arguments.")
+                return None
+            client.login()
+        return None
 
 def main():
     parser = argparse.ArgumentParser(description="ProbeSchedule API Client")
@@ -60,18 +66,9 @@ def main():
                     type=str,
                     help="ID used for relevant endpoint")
     args = parser.parse_args()
-    client = PS_CLient()
-    
-    if args.endpoint == 'login':
-        if args.id:
-            print(f"Error: login does not accept any additional arguments.")
-        client.login()
-    
-    if not loggedIn():
-        print("No Token Available, please login...")
-        client.login()
-    
+    client = PS_CLient() 
     routeArgs(args, client)
+    return None
 
 if __name__ == "__main__":
     main()
