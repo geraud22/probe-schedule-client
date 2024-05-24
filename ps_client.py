@@ -7,6 +7,7 @@ class PS_CLient:
         this.device_id = 0
         this.filename = ''
         this.url = ''
+        this.response = ''
     
     def __readToken(this):
         with open("token.json", 'r') as json_file:
@@ -14,8 +15,8 @@ class PS_CLient:
             token = jsonObject['data']['token']
         return token
     
-    def __makeJsonFile(this, response):
-        jsonData = json.loads(response)
+    def __makeJsonFile(this):
+        jsonData = json.loads(this.response)
         with open(f"{this.filename}.json", 'w') as json_file:
             json.dump(jsonData, json_file, indent=4)
         print(f"Received Data has been saved to {this.filename}.json")
@@ -30,8 +31,8 @@ class PS_CLient:
     def __makeRequest(this):
         headers = {"authorization": f"Bearer {this.__readToken()}"}
         r = requests.get(f"{this.url}", headers=headers)
-        response = r.content.decode('utf-8')
-        this.__makeJsonFile(response)
+        this.response = r.content.decode('utf-8')
+        this.__makeJsonFile()
         return None
     
     def login(this):
