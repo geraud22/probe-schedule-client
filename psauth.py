@@ -1,5 +1,6 @@
 import requests
 import json
+from makeJsonFile import makeJsonFile
 
 def requestUserDetails():
     userDetails = {}
@@ -27,4 +28,7 @@ def returnBearerToken():
 if __name__ == "__main__":
     response = returnBearerToken()
     jsonResponse = json.loads(response)
-    print("Token: ", jsonResponse['data']['token'])
+    token = {
+        "token": jsonResponse['data']['token']
+    }
+    makeJsonFile(token)

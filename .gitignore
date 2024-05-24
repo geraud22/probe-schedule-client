@@ -1,2 +1,4 @@
 /venv
 *.text
+*.json
+__pycache__
