@@ -8,7 +8,7 @@ def requestUserDetails():
     userDetails['password'] = input("Please enter your password: ")
     return userDetails
 
-def returnBearerToken():
+def retrieveBearerToken():
     userDetails = requestUserDetails()
     dataObject = {
         "type": "login",
@@ -23,12 +23,12 @@ def returnBearerToken():
                       json=dataObject
                       )
     response = r.content.decode('utf-8')
-    return response
-    
-if __name__ == "__main__":
-    response = returnBearerToken()
     jsonResponse = json.loads(response)
     token = {
         "token": jsonResponse['data']['token']
     }
     makeJsonFile(token)
+    return response
+    
+if __name__ == "__main__":
+    response = retrieveBearerToken()
