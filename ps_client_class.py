@@ -3,8 +3,7 @@ import json
 
 class PS_CLient:
     def __init__(this):
-        this.farm_id = 0
-        this.device_id = 0
+        this.id = 0
         this.filename = ''
         this.url = ''
         this.response = ''
@@ -60,30 +59,30 @@ class PS_CLient:
         this.__makeRequest()
         return None
     
-    def getBlockList(this):
-        this.filename = "blocklist"
-        this.farm_id = input("Enter Farm ID: ")
-        this.url = f"https://api.probeschedule.co.za/data_api/v3/farms/{this.farm_id}/blocks"
+    def getBlockList(this, farmId):
+        this.id = farmId
+        this.filename = f"{farmId}-blocklist"
+        this.url = f"https://api.probeschedule.co.za/data_api/v3/farms/{this.id}/blocks"
         this.__makeRequest()
         return None
     
-    def getDeviceList(this):
-        this.filename = "devicelist"
-        this.farm_id = input("Enter Farm ID: ")
-        this.url = f"https://api.probeschedule.co.za/data_api/v3/farms/{this.farm_id}/devices"
+    def getDeviceList(this, farmId):
+        this.id = farmId
+        this.filename = f"{farmId}-devicelist"
+        this.url = f"https://api.probeschedule.co.za/data_api/v3/farms/{this.id}/devices"
         this.__makeRequest()
         return None
     
     def getDeviceStatus(this, deviceId):
-        this.filename = "devicestatus"
-        this.device_id = deviceId
-        this.url = f"https://api.probeschedule.co.za/data_api/v3/devices/{this.device_id}/status"
+        this.id = deviceId
+        this.filename = f"{deviceId}-devicestatus"
+        this.url = f"https://api.probeschedule.co.za/data_api/v3/devices/{this.id}/status"
         this.__makeRequest()
         return None
     
-    def getDeviceData(this):
-        this.filename = "devicedata"
-        this.device_id = input("Enter Device ID: ")
-        this.url = f"https://api.probeschedule.co.za/data_api/v3/devices/{this.device_id}/data"
+    def getDeviceData(this, deviceId):
+        this.id = deviceId
+        this.filename = f"{deviceId}-devicedata"
+        this.url = f"https://api.probeschedule.co.za/data_api/v3/devices/{this.id}/data"
         this.__makeRequest()
         return None

@@ -10,19 +10,36 @@ def loggedIn():
     return False
 
 def routeArgs(args, client):
-    if args.endpoint == 'farmlist':
-        client.getFarmList()
-    if args.endpoint == 'blocklist':
-        client.getBlockList()
-    if args.endpoint == 'devicelist':
-        client.getDeviceList()
-    if args.endpoint == 'devicestatus':
-        if args.id:
-            client.getDeviceStatus(args.id)
-        else:
-            print("Error: Please provide a device ID for the devicestatus endpoint.")
-    if args.endpoint == 'devicedata':
-        client.getDeviceData()
+    function_collection = {
+        "blocklist": client.getBlockList,
+        "devicelist": client.getDeviceList,
+        "devicestatus": client.getDeviceStatus,
+        "devicedata": client.getDeviceData
+    }
+    
+    positional_arguments = [
+        "blocklist",
+        "devicelist",
+        "devicestatus",
+        "devicedata"
+    ]
+    
+    if args.endpoint != 'farmlist':
+        for pos_arg in positional_arguments:
+            if args.endpoint == pos_arg:
+                if args.id:
+                    function_collection[pos_arg](args.id)
+                    return None
+                else:
+                    print(f"Error: Please provide a device ID for {pos_arg}.")
+                    return None
+    
+    if args.id:
+        print(f"Error: farmlist does not accept any additional arguments.")
+        return None
+        
+    client.getFarmList()
+    return None
 
 def main():
     parser = argparse.ArgumentParser(description="ProbeSchedule API Client")
@@ -46,6 +63,8 @@ def main():
     client = PS_CLient()
     
     if args.endpoint == 'login':
+        if args.id:
+            print(f"Error: login does not accept any additional arguments.")
         client.login()
     
     if not loggedIn():
