@@ -39,8 +39,8 @@ class PS_CLient:
         if os.path.exists("token.json"):
             with open("token.json", 'r') as json_file:
                 if json_file.read():
-                    return True
-        return False
+                    return False
+        return True
     
     def login(this):
         this.filename = "token"
