@@ -1,5 +1,4 @@
 import argparse
-import os
 class Router:
     def __init__(this, client) -> None:
         this.client = client
@@ -37,12 +36,10 @@ class Router:
                     type=str,
                     help="ID used for relevant endpoint")
         return parser
-    
-    def __checkValidCommand(this) -> None:
         if this.endpoint not in this.function_collection:
             raise ValueError(f"Unknown command: {this.endpoint}")
         
-    def __checkId(this) -> None:
+    def __checkIdRequirement(this) -> None:
         if this.requires_id and this.id == None:
             raise ValueError(f"Please provide an ID for '{this.endpoint}'")
         elif not this.requires_id and this.id != None:
@@ -62,9 +59,8 @@ class Router:
                        
     
     def route(this) -> None:
-        this.__checkValidCommand()
         (this.method, this.requires_id) = this.function_collection[this.endpoint]
-        this.__checkId()
+        this.__checkIdRequirement()
         this.__loginIfNeeded()
         this.__callEndpoint()
             
