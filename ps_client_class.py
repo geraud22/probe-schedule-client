@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 
 class PS_CLient:
     def __init__(this):
@@ -33,6 +34,13 @@ class PS_CLient:
         this.response = r.content.decode('utf-8')
         this.__makeJsonFile()
         return None
+    
+    def notLoggedIn(this):
+        if os.path.exists("token.json"):
+            with open("token.json", 'r') as json_file:
+                if json_file.read():
+                    return True
+        return False
     
     def login(this):
         this.filename = "token"

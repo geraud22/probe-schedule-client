@@ -1,32 +1,7 @@
-import argparse
+from router_class import Router
 from ps_client_class import PS_CLient
-import os
-
-def loggedIn():
-    if os.path.exists("token.json"):
-        with open("token.json", 'r') as json_file:
-            if json_file.read():
-                return True
-    return False
 
 def routeArgs(args, client):
-    function_collection = {
-        "blocklist": client.getBlockList,
-        "devicelist": client.getDeviceList,
-        "devicestatus": client.getDeviceStatus,
-        "devicedata": client.getDeviceData
-    }
-    
-    positional_arguments = [
-        "blocklist",
-        "devicelist",
-        "devicestatus",
-        "devicedata"
-    ]
-
-    if not loggedIn():
-        print("No Token Available, please login...")
-        client.login()
         
     for pos_arg in positional_arguments:
         if pos_arg == args.endpoint:
@@ -48,23 +23,7 @@ def routeArgs(args, client):
         return None
 
 def main():
-    parser = argparse.ArgumentParser(description="ProbeSchedule API Client")
-    parser.add_argument('endpoint', 
-                        type=str, 
-                        help="Choose an API Endpoint to access",
-                        choices=[
-                            'login',
-                            'farmlist',
-                            'blocklist',
-                            'devicelist',
-                            'devicestatus',
-                            'devicedata',
-                        ])
     
-    parser.add_argument('id',
-                    nargs='?',
-                    type=str,
-                    help="ID used for relevant endpoint")
     args = parser.parse_args()
     client = PS_CLient() 
     routeArgs(args, client)
