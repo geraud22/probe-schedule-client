@@ -3,7 +3,7 @@ import os
 class Router:
     def __init__(this, client) -> None:
         this.client = client
-        
+        this.method = ''
         parser = this.__createParser()
         args = parser.parse_args()
         this.endpoint = args.endpoint
@@ -53,15 +53,18 @@ class Router:
             return
         elif this.client.shouldLogin and this.endpoint != 'login':
             raise ValueError(f"No token available. Please obtain one via the 'login' command.")
+        
+    def __callEndpoint(this):
+        if this.requires_id:
+            this.method(this.id)
+            return 
+        this.method()
                        
     
     def route(this) -> None:
         this.__checkValidCommand()
-        (method, this.requires_id) = this.function_collection[this.endpoint]
+        (this.method, this.requires_id) = this.function_collection[this.endpoint]
         this.__checkId()
         this.__loginIfNeeded()
-        if this.requires_id:
-            method(this.id)
-            return 
-        method()
+        this.__callEndpoint()
             
