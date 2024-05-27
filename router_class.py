@@ -3,7 +3,7 @@ import os
 class Router:
     def __init__(this, client) -> None:
         this.client = client
-        this.shouldLogin = this.__shouldLogin()
+        
         parser = this.__createParser()
         args = parser.parse_args()
         this.endpoint = args.endpoint
@@ -38,13 +38,6 @@ class Router:
                     help="ID used for relevant endpoint")
         return parser
     
-    def __shouldLogin(this) -> bool:
-        if os.path.exists("token.json"):
-            with open("token.json", 'r') as json_file:
-                if json_file.read():
-                    return False
-        return True
-    
     def __checkValidCommand(this) -> None:
         if this.endpoint not in this.function_collection:
             raise ValueError(f"Unknown command: {this.endpoint}")
@@ -56,9 +49,9 @@ class Router:
             raise ValueError(f"Please call this endpoint without an ID: '{this.endpoint}'") 
         
     def __loginIfNeeded(this) -> None:
-        if this.shouldLogin and this.endpoint == 'login':
+        if this.client.shouldLogin and this.endpoint == 'login':
             return
-        elif this.shouldLogin and this.endpoint != 'login':
+        elif this.client.shouldLogin and this.endpoint != 'login':
             raise ValueError(f"No token available. Please obtain one via the 'login' command.")
                        
     

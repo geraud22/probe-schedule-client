@@ -1,12 +1,21 @@
 import requests
 import json
+import os
 
 class PS_CLient:
     def __init__(this) -> None:
+        this.shouldLogin = this.__shouldLogin()
         this.id = 0
         this.filename = ''
         this.url = ''
         this.response = ''
+        
+    def __shouldLogin(this) -> bool:
+        if os.path.exists("token.json"):
+            with open("token.json", 'r') as json_file:
+                if json_file.read():
+                    return False
+        return True
     
     def __readToken(this) -> str:
         with open("token.json", 'r') as json_file:
