@@ -1,4 +1,4 @@
-from ps_client_class import PS_CLient
+from probe_schedule_client_class import PS_CLient
 from router_class import Router
 
 if __name__ == "__main__":
