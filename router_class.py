@@ -57,10 +57,8 @@ class Router:
             return 
         this.method()
                        
-    
     def route(this) -> None:
         (this.method, this.requires_id) = this.function_collection[this.endpoint]
         this.__checkIdRequirement()
         this.__loginIfNeeded()
         this.__callEndpoint()
-            
