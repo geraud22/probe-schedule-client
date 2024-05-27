@@ -5,7 +5,7 @@ if __name__ == "__main__":
     try:
         client = PS_CLient()
         router = Router(client)
-        router.go()
+        router.route()
     except ValueError as v:
         print(f"Error: {v}")
     except Exception as e:

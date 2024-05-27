@@ -1,48 +1,38 @@
 import requests
 import json
-import os
 
 class PS_CLient:
-    def __init__(this):
+    def __init__(this) -> None:
         this.id = 0
         this.filename = ''
         this.url = ''
         this.response = ''
     
-    def __readToken(this):
+    def __readToken(this) -> str:
         with open("token.json", 'r') as json_file:
             jsonObject = json.load(json_file)
             token = jsonObject['data']['token']
         return token
     
-    def __makeJsonFile(this):
+    def __makeJsonFile(this) -> None:
         jsonData = json.loads(this.response)
         with open(f"{this.filename}.json", 'w') as json_file:
             json.dump(jsonData, json_file, indent=4)
         print(f"Received Data has been saved to {this.filename}.json")
-        return None
         
-    def __requestUserDetails(this):
+    def __requestUserDetails(this) -> dict:
         userDetails = {}
         userDetails['username'] = input("Please enter your username: ")
         userDetails['password'] = input("Please enter your password: ")
         return userDetails
     
-    def __makeRequest(this):
+    def __makeRequest(this) -> None:
         headers = {"authorization": f"Bearer {this.__readToken()}"}
         r = requests.get(f"{this.url}", headers=headers)
         this.response = r.content.decode('utf-8')
         this.__makeJsonFile()
-        return None
     
-    def notLoggedIn(this):
-        if os.path.exists("token.json"):
-            with open("token.json", 'r') as json_file:
-                if json_file.read():
-                    return False
-        return True
-    
-    def login(this):
+    def login(this) -> None:
         this.filename = "token"
         userDetails = this.__requestUserDetails()
         dataObject = {
@@ -59,38 +49,32 @@ class PS_CLient:
                         )
         this.response = r.content.decode('utf-8')
         this.__makeJsonFile()
-        return None
     
-    def getFarmList(this):
+    def getFarmList(this) -> None:
         this.filename = "farmlist"
         this.url = "https://api.probeschedule.co.za/data_api/v3/farms/list"
         this.__makeRequest()
-        return None
     
-    def getBlockList(this, farmId):
+    def getBlockList(this, farmId) -> None:
         this.id = farmId
         this.filename = f"{farmId}-blocklist"
         this.url = f"https://api.probeschedule.co.za/data_api/v3/farms/{this.id}/blocks"
         this.__makeRequest()
-        return None
     
-    def getDeviceList(this, farmId):
+    def getDeviceList(this, farmId) -> None:
         this.id = farmId
         this.filename = f"{farmId}-devicelist"
         this.url = f"https://api.probeschedule.co.za/data_api/v3/farms/{this.id}/devices"
         this.__makeRequest()
-        return None
     
-    def getDeviceStatus(this, deviceId):
+    def getDeviceStatus(this, deviceId) -> None:
         this.id = deviceId
         this.filename = f"{deviceId}-devicestatus"
         this.url = f"https://api.probeschedule.co.za/data_api/v3/devices/{this.id}/status"
         this.__makeRequest()
-        return None
     
-    def getDeviceData(this, deviceId):
+    def getDeviceData(this, deviceId) -> None:
         this.id = deviceId
         this.filename = f"{deviceId}-devicedata"
         this.url = f"https://api.probeschedule.co.za/data_api/v3/devices/{this.id}/data"
         this.__makeRequest()
-        return None

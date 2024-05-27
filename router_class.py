@@ -1,8 +1,12 @@
 import argparse
+import os
 class Router:
     def __init__(this, client) -> None:
-        this.parser = this.createParser()
-        this.args = this.parser.parse_args()
+        parser = this.__createParser()
+        args = parser.parse_args()
+        this.endpoint = args.endpoint
+        this.id = args.id
+        this.requires_id = False
         this.client = client
         this.function_collection = {
             "login": (this.client.login, False),
@@ -13,7 +17,7 @@ class Router:
             "devicedata": (this.client.getDeviceData, True)
         }
         
-    def createParser(this) -> object:
+    def __createParser(this) -> object:
         parser = argparse.ArgumentParser(description="ProbeSchedule API Client")
         parser.add_argument('endpoint', 
                         type=str, 
@@ -31,29 +35,32 @@ class Router:
                     nargs='?',
                     type=str,
                     help="ID used for relevant endpoint")
-        return parser            
+        return parser
+        
+    def __checkTokenExists(this) -> None:
+        if os.path.exists("token.json"):
+            with open("token.json", 'r') as json_file:
+                if json_file.read():
+                    return True
+        raise ValueError("No token available. Please obtain one via the 'login' command.")
     
-    def routeArgs(this) -> None:
-        if this.args.endpoint not in this.function_collection:
-            raise ValueError(f"Unknown command: {this.args.endpoint}")
-        method, requires_id = this.function_collection[this.args.endpoint]
+    def __checkValidCommand(this) -> None:
+        if this.endpoint not in this.function_collection:
+            raise ValueError(f"Unknown command: {this.endpoint}")
         
-        if requires_id and this.args.id == None:
-            raise ValueError(f"Please provide an ID for '{this.args.endpoint}'")
-        elif not requires_id and this.args.id != None:
-            raise ValueError(f"Please call this endpoint without an ID: '{this.args.endpoint}'")
-        
-        if requires_id:
-            method(this.args.id)
-            return None
-        
+    def __checkId(this) -> None:
+        if this.requires_id and this.id == None:
+            raise ValueError(f"Please provide an ID for '{this.endpoint}'")
+        elif not this.requires_id and this.id != None:
+            raise ValueError(f"Please call this endpoint without an ID: '{this.endpoint}'")            
+    
+    def route(this) -> None:
+        this.__checkValidCommand()
+        this.__checkTokenExists()
+        (method, this.requires_id) = this.function_collection[this.endpoint]
+        this.__checkId()
+        if this.requires_id:
+            method(this.id)
+            return 
         method()
-        return None
-    
-    def go(this):
-        if this.client.notLoggedIn():
-            print("No Token Available, please login first: ")
-            this.client.login()
-        this.routeArgs()
-        return None
             
