@@ -16,14 +16,16 @@ class PS_CLient:
     
     def __makeJsonFile(this) -> None:
         jsonData = json.loads(this.response)
+        if not jsonData['success']:
+                raise ValueError(f"Authentication Failed.")
         with open(f"{this.filename}.json", 'w') as json_file:
             json.dump(jsonData, json_file, indent=4)
         print(f"Received Data has been saved to {this.filename}.json")
         
     def __requestUserDetails(this) -> dict:
         userDetails = {}
-        userDetails['username'] = input("Please enter your username: ")
-        userDetails['password'] = input("Please enter your password: ")
+        userDetails['username'] = input("Please enter your Probe Schedule username: ")
+        userDetails['password'] = input("Please enter your Probe Schedule password: ")
         return userDetails
     
     def __makeRequest(this) -> None:
